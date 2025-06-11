@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  mysql-db:
+    image: mysql/mysql-server:8.0
+    container_name: mysql-demo
+    ports:
+      - 3306:3306
+    volumes:
+      - db-demo-mysql-vol:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db_demo
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    
+  mongo-db:
+    image: mongo:8.0
+    container_name: mongo-demo
+    ports:
+      - 27017:27017
+    volumes:
+      - db-demo-mongo-vol:/var/lib/mysql
+    environment:
+      MONGO_INITDB_DATABASE: db_demo
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    
+volumes:
+  db-demo-mysql-vol:
+  db-demo-mongo-vol:
