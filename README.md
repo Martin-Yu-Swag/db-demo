@@ -1,5 +1,11 @@
 # db-demo
 
+## Prerequisite
+
+- docker (DockerDesktop Or Orbstack)
+- [poetry](https://python-poetry.org/docs/#installation)
+- [mysqldb](https://github.com/PyMySQL/mysqlclient/blob/main/README.md)
+
 ## Models ERD
 
 ```mermaid
@@ -24,6 +30,7 @@ erDiagram
         int id PK ""
         int user_id FK ""
         text body ""
+        int views "default 0"
         datetime created_at ""
     }
 
@@ -51,6 +58,7 @@ erDiagram
         int id PK ""
         int post FK "posts.id"
         int user_id FK "users.id"
+        text body ""
         datetime created_at ""
     }
 
