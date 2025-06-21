@@ -6,7 +6,7 @@ PORT     = 3306
 DATABASE = 'db_demo'
 USERNAME = 'admin'
 PASSWORD = 'password'
-ECHO     = True
+ECHO     = False
 # fmt: on
 
 cnt_string = f"mysql+mysqldb://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"

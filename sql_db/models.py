@@ -2,13 +2,14 @@ from datetime import datetime
 
 from sqlalchemy import String, ForeignKey, TIMESTAMP, Text, UniqueConstraint, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.sql import func
 
 
 class Base(DeclarativeBase):
     __abstract__ = True
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(INTEGER(unsigned=True), primary_key=True)
     created_at: Mapped[datetime] = mapped_column(
         TIMESTAMP, server_default=func.now(), comment="UTC timezone"
     )
@@ -31,13 +32,13 @@ class Post(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     title: Mapped[str] = mapped_column(String(255))
     body: Mapped[str] = mapped_column(Text, nullable=False)
-    views: Mapped[int] = mapped_column(Integer, default=0)
+    views: Mapped[int] = mapped_column(INTEGER(unsigned=True), default=0)
 
     user: Mapped["User"] = relationship(back_populates="posts")
     comments: Mapped[list["Comment"]] = relationship(back_populates="post")
     likes: Mapped[list["PostLike"]] = relationship(back_populates="post")
 
-    tags: Mapped[list["Post"]] = relationship(
+    tags: Mapped[list["Tag"]] = relationship(
         secondary="post_tag",
         primaryjoin="PostTag.tag_id == Tag.id",
         secondaryjoin="PostTag.post_id == Post.id",
