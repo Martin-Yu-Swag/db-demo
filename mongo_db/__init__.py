@@ -1,1 +1,1 @@
-from . import db_config # noqa: F401
+from . import db_config  # noqa: F401

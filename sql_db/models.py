@@ -40,8 +40,8 @@ class Post(Base):
 
     tags: Mapped[list["Tag"]] = relationship(
         secondary="post_tag",
-        primaryjoin="PostTag.tag_id == Tag.id",
-        secondaryjoin="PostTag.post_id == Post.id",
+        # primaryjoin="PostTag.tag_id == Tag.id",
+        # secondaryjoin="PostTag.post_id == Post.id",
         back_populates="posts",
     )
 
@@ -89,8 +89,8 @@ class Tag(Base):
 
     posts: Mapped[list["Post"]] = relationship(
         secondary="post_tag",
-        primaryjoin="PostTag.post_id == Post.id",
-        secondaryjoin="PostTag.tag_id == Tag.id",
+        # primaryjoin="PostTag.post_id == Post.id",
+        # secondaryjoin="PostTag.tag_id == Tag.id",
         back_populates="tags",
     )
 
