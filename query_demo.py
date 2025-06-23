@@ -1,3 +1,21 @@
+"""
+Goal:
+Get posts (along with their author id and name) published in June,
+and find top views, top likes, top comments posts by each tag.
+
+{
+    "tag_1_name": {
+        "posts": [
+            {"title": "", "body": "", "author": "", "views"...},
+        ],
+        "best_view": {"title": "", "body": "", "author": "", "views"...},
+        "best_like": {"title": "", "body": "", "author": "", "views"...},
+        "best_comment": {"title": "", "body": "", "author": "", "views"...},
+    },
+    "tag_2_name": {}...
+}
+"""
+
 from datetime import datetime
 
 
@@ -58,6 +76,7 @@ def sql_query():
     results = session.execute(stmt).all()
     post_cmt_cnt = {result[0]: result[1] for result in results}
 
+    # Step 4. organize data and return
     def _collect_tag_data(tag: Tag):
         posts = [
             {
@@ -160,8 +179,6 @@ def mongo_query():
         yield {"$sort": {"_id": 1}}
         # fmt: on
 
-    docs: list[dict] = list(Post.objects.aggregate(_stages()))
-
     return {
         doc["_id"]: {
             "posts": doc["posts"],
@@ -169,7 +186,7 @@ def mongo_query():
             "best_like": doc["best_like"],
             "best_comment": doc["best_comment"],
         }
-        for doc in docs
+        for doc in Post.objects.aggregate(_stages())
     }
 
 
@@ -183,3 +200,5 @@ for (sql_tag, sql_data), (mongo_tag, mongo_data) in zip(
     assert sql_data["best_view"] == mongo_data["best_view"]
     assert sql_data["best_like"] == mongo_data["best_like"]
     assert sql_data["best_comment"] == mongo_data["best_comment"]
+
+print("Query comparison done.")

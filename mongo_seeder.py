@@ -104,7 +104,7 @@ def seed_posts(session: Session = None):
         query: QuerySet = Post.objects
         query.insert(list(_generate_post()))
 
-        print(f"{offset + len(posts)} created...")
+        print(f"{offset + len(posts)} posts created...")
 
         offset += step
 
